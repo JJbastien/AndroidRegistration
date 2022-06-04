@@ -1,36 +1,44 @@
 package com.example.myfirstregistration;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.regex.Pattern;
 
 public class RegistrationForm extends AppCompatActivity {
-
+// declaring varialbles ;
+    ImageView mcheck1;
+    ImageView mcheck2;
+    ImageView mcheck3;
+    ImageView mx1;
+    ImageView mx2;
+    ImageView mx3;
     Button msendInfoBtn;
     EditText mtypeEmail;
     EditText mtypePassword;
     EditText mconfirmPassword;
+
+    // declaring and initializing Regular express for the password validation;
     Pattern passwordRegex = Pattern.compile("^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$");
     private static final String SHARED_PREFS = "shared_prefs";
     private static final String TEXT = "text";
+    private TextView mcreateLabel;
+    // array list to save different email address in the shared preferences.
     SharedPreferences sharedPreferences;
     ArrayList <String> emailList;
-
-
 
 
     @Override
@@ -43,10 +51,17 @@ public class RegistrationForm extends AppCompatActivity {
         mconfirmPassword = findViewById(R.id.confirmPassword);
         emailList = new ArrayList<>();
         sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        mcreateLabel = findViewById(R.id.labelCreate);
+        mcheck1 = findViewById(R.id.check1);
+        mcheck2 = findViewById(R.id.check2);
+        mcheck3 = findViewById(R.id.check3);
+        mx3= findViewById(R.id.x3);
+        mx2 = findViewById(R.id.x2);
+        mx1 = findViewById(R.id.x1);
 
 
     }
-
+    //the methods and functions are being called in the onResume methods
     @Override
     protected void onResume() {
         super.onResume();
@@ -98,47 +113,35 @@ public class RegistrationForm extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
 
-
-
             }
         });
-        msendInfoBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               saveData();
-            }
+        msendInfoBtn.setOnClickListener(v -> {
+        saveData();
+        Intent mIntent = new Intent(getBaseContext(), Landing.class);
+        startActivity(mIntent);
+
         });
     }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-    }
-
-    private Boolean validateEmail(){
+    public Boolean validateEmail() {
         String emailInput = mtypeEmail.getText().toString().trim();
-        Boolean emailValidator = Patterns.EMAIL_ADDRESS.matcher(emailInput).matches();
-        if(emailInput.isEmpty()){
+        boolean emailValidator = Patterns.EMAIL_ADDRESS.matcher(emailInput).matches();
+        if (emailInput.isEmpty()) {
             mtypeEmail.setError("field cannot be empty");
             return false;
-        }
-        else if(!emailValidator){
+        } else if (!emailValidator) {
             mtypeEmail.setError("please enter a valid email");
             return false;
-        }
-        else if (emailList.contains(emailInput)){
+        } else if (emailList.contains(emailInput)) {
             mtypeEmail.setError("email already in use");
             return false;
+        } else {
+            mcheck1.setVisibility(View.VISIBLE);
+            return true;
         }
-
-        else {
-            Toast.makeText(this,"email validated", Toast.LENGTH_SHORT);
-            return true;}
-
-
     }
-    private Boolean validatePassword(){
+
+    //password validation function
+    public Boolean validatePassword(){
         String passInput = mtypePassword.getText().toString().trim();
         if(passInput.isEmpty()){
             mtypePassword.setError("field cannot be empty");
@@ -149,14 +152,15 @@ public class RegistrationForm extends AppCompatActivity {
             return false;
         }
 
-        else
-            return true;
-
+        else{
+            mcheck2.setVisibility(View.VISIBLE);
+            return true;}
 
     }
-
+        //function to confirm password
     private Boolean validateConfirmPassword(){
         String passInput2 = mconfirmPassword.getText().toString().trim();
+        String passInput = mtypePassword.getText().toString().trim();
         if(passInput2.isEmpty()){
             mconfirmPassword.setError("field cannot be empty");
             return false;
@@ -165,7 +169,14 @@ public class RegistrationForm extends AppCompatActivity {
             mconfirmPassword.setError("password must include at least 8 characters, at least one uppercase, one lower case and one number");
             return false;
         }
-        else return true;
+        else if(!passInput2.equals(passInput)){
+            mconfirmPassword.setError("Passwords must match, please confirm password");
+            return false;
+        }
+        else {
+            mcheck3.setVisibility(View.VISIBLE);
+            return true;
+        }
     }
 
     private void enableNextButton(){
@@ -175,7 +186,7 @@ public class RegistrationForm extends AppCompatActivity {
         }
 
     }
-
+        //function called on click to save the email to sharedPreference.
     public void saveData() {
         String emailInput = mtypeEmail.getText().toString().trim();
 
@@ -185,7 +196,11 @@ public class RegistrationForm extends AppCompatActivity {
         sharedPreferences.edit().putString(TEXT, emailInput ).apply();
 
 
-        Toast.makeText(this, "email saved", Toast.LENGTH_SHORT);
+        Toast.makeText(this, "email saved", Toast.LENGTH_SHORT).show();
     }
-
+    public void clearData(){
+        mtypeEmail.getText().clear();
+        mtypePassword.getText().clear();
+        mconfirmPassword.getText().clear();
+    }
 }

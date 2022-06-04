@@ -1,3 +1,22 @@
 <resources>
     <string name="app_name">MyFirstRegistration</string>
+    <string name="greenflag_customers_can_create_account_to_access">GreenFlag Customers can create account to access</string>
+    <string name="greenflag">GreenFlag</string>
+    <string name="car_health_updates_request_a_rescue_online_policy_information">car health updates Request a rescue online policy information</string>
+    <string name="button">Button</string>
+    <string name="create_an_account">Create an account</string>
+    <string name="email_address">Email address</string>
+    <string name="enter_email_address">enter email address</string>
+    <string name="create_password">Create Password</string>
+    <string name="see_criteria_below">see criteria below</string>
+    <string name="repeat_password">Repeat password</string>
+    <string name="enter_same_password_as_above">enter same password as above</string>
+    <string name="your_password_should_have_a_minimum_of_8_characters_and_contain_at_least_one_number_one_uppercase_and_one_lower_case_letter">Your password should have a minimum of 8 characters and contain at least one number, one uppercase and one lower case letter.</string>
+    <string name="click_me_to_save_email">Click me to save email</string>
+    <string name="greenFlag">GreenFlag</string>
+    <string name="button1">Button</string>
+    <string name="welcome_your_email_has_been_saved">Welcome Your email has been saved</string>
+    <string name="click_to_go_back">Click to go back</string>
+    <string name="click_to_go_back_and_register_another_account">click to go back and register another account</string>
+    <string name="Flag">GreenFlag</string>
 </resources>
